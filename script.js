@@ -90,17 +90,31 @@ function clearRememberedData() {
 async function tryAutoLogin() {
   const deviceId = getDeviceId();
   const remembered = getRememberedData();
-  if (!remembered || remembered.deviceId !== deviceId) return false;
+  console.log("[autoLogin] deviceId:", deviceId);
+  console.log("[autoLogin] remembered data:", remembered);
+  console.log("[autoLogin] rememberedUntil raw:", localStorage.getItem(REMEMBER_UNTIL_KEY));
+
+  if (!remembered) {
+    console.log("[autoLogin] ไม่มีข้อมูลจดจำไว้ หรือหมดอายุแล้ว -> ข้าม auto-login");
+    return false;
+  }
+  if (remembered.deviceId !== deviceId) {
+    console.log("[autoLogin] deviceId ไม่ตรงกัน -> ข้าม auto-login", remembered.deviceId, "!=", deviceId);
+    return false;
+  }
 
   setStatus("กำลังเข้าสู่ระบบอัตโนมัติ...", "");
   try {
+    console.log("[autoLogin] กำลังเรียก saveDirectly ...");
     const data = await requestApi({ action: "saveDirectly", ...remembered });
+    console.log("[autoLogin] ผลลัพธ์จาก saveDirectly:", data);
     if (!data.success) {
-      // ข้อมูลที่จดจำไว้ใช้ไม่ได้แล้ว (เช่นถูกลบฝั่งเซิร์ฟเวอร์) ให้ล้างทิ้งแล้วกรอกฟอร์มใหม่ตามปกติ
+      console.warn("[autoLogin] saveDirectly ไม่สำเร็จ -> ล้างข้อมูลจดจำ แล้วกลับไปกรอกฟอร์มใหม่");
       clearRememberedData();
       setStatus();
       return false;
     }
+    console.log("[autoLogin] สำเร็จ! กำลังพาไปหน้า success");
     document.getElementById("device-remembered").style.display = "none";
     goToScreen("screen-success", 3);
     setStatus();
@@ -113,6 +127,7 @@ async function tryAutoLogin() {
     }
     return true;
   } catch (err) {
+    console.error("[autoLogin] เกิด error ตอนเรียก API:", err);
     // เชื่อมต่อไม่สำเร็จ (เช่นไม่มีอินเทอร์เน็ต) ให้กรอกฟอร์มใหม่ตามปกติแทน ไม่ลบข้อมูลที่จดจำไว้
     setStatus();
     return false;
