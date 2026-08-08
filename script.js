@@ -1,9 +1,12 @@
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx5YKAq8gI0lVmXzBXoBLCCGSfQvYswsJq_RvL0xVfKeZtIxFnBT3cvLCP8SEqKhhPI/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwVbq-4cHtD-QIN93VFoUeL2EAjJ6OcVj6MSg30dhF84K4bXyu30mPVaRIyPCKMNQdh/exec";
 // URL ของ Firebase Realtime Database (ไม่ต้องมี / ปิดท้าย)
 const FIREBASE_HOST = "https://student-door-lock-default-rtdb.asia-southeast1.firebasedatabase.app";
 const FIREBASE_DOOR_COMMAND_URL = `${FIREBASE_HOST}/door/command.json`;
 const SESSION_KEY = "pendingRegistration";
 const REMEMBER_DAYS = 30;
+// key ใหม่สำหรับเก็บข้อมูลจดจำอุปกรณ์แบบเต็ม (แทน rememberedEmail เดิม)
+const REMEMBER_DATA_KEY = "rememberedData";
+const REMEMBER_UNTIL_KEY = "rememberedUntil";
 
 function getDeviceId() {
   let id = localStorage.getItem("deviceId");
@@ -16,6 +19,7 @@ function getDeviceId() {
 
 function setStatus(message = "", type = "") {
   const status = document.getElementById("connection-status");
+  if (!status) return;
   status.textContent = message;
   status.className = `connection-status${type ? ` is-${type}` : ""}`;
 }
@@ -58,11 +62,73 @@ function clearForm() {
   setStatus();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const rememberedEmail = localStorage.getItem("rememberedEmail");
-  const rememberedUntil = Number(localStorage.getItem("rememberedUntil"));
-  if (rememberedEmail && rememberedUntil > Date.now()) document.getElementById("reg-email").value = rememberedEmail;
+// อ่านข้อมูลอุปกรณ์ที่จดจำไว้ (ถ้ามีและยังไม่หมดอายุ)
+function getRememberedData() {
+  const rememberedUntil = Number(localStorage.getItem(REMEMBER_UNTIL_KEY));
+  if (!rememberedUntil || rememberedUntil <= Date.now()) return null;
+  try {
+    const data = JSON.parse(localStorage.getItem(REMEMBER_DATA_KEY) || "null");
+    if (!data || !data.email || !data.name || !data.studentId || !data.room || !data.deviceId) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function saveRememberedData(registration) {
+  localStorage.setItem(REMEMBER_DATA_KEY, JSON.stringify(registration));
+  localStorage.setItem(REMEMBER_UNTIL_KEY, String(Date.now() + REMEMBER_DAYS * 86400000));
+}
+
+function clearRememberedData() {
+  localStorage.removeItem(REMEMBER_DATA_KEY);
+  localStorage.removeItem(REMEMBER_UNTIL_KEY);
+}
+
+// พยายามเข้าสู่ระบบอัตโนมัติด้วยข้อมูลที่จดจำไว้ ข้ามหน้ากรอกฟอร์มและ OTP
+// คืนค่า true ถ้าสำเร็จ (พาไปหน้าสำเร็จแล้ว), false ถ้าไม่สำเร็จ/ไม่มีข้อมูลจดจำ
+async function tryAutoLogin() {
+  const deviceId = getDeviceId();
+  const remembered = getRememberedData();
+  if (!remembered || remembered.deviceId !== deviceId) return false;
+
+  setStatus("กำลังเข้าสู่ระบบอัตโนมัติ...", "");
+  try {
+    const data = await requestApi({ action: "saveDirectly", ...remembered });
+    if (!data.success) {
+      // ข้อมูลที่จดจำไว้ใช้ไม่ได้แล้ว (เช่นถูกลบฝั่งเซิร์ฟเวอร์) ให้ล้างทิ้งแล้วกรอกฟอร์มใหม่ตามปกติ
+      clearRememberedData();
+      setStatus();
+      return false;
+    }
+    document.getElementById("device-remembered").style.display = "none";
+    goToScreen("screen-success", 3);
+    setStatus();
+
+    // สั่งเปิดประตูเช่นเดียวกับตอนยืนยัน OTP ปกติ
+    try {
+      await openDoor();
+    } catch (err) {
+      setStatus(`เข้าสู่ระบบสำเร็จ แต่สั่งเปิดประตูไม่สำเร็จ: ${err.message || "กรุณาลองใหม่"}`, "error");
+    }
+    return true;
+  } catch (err) {
+    // เชื่อมต่อไม่สำเร็จ (เช่นไม่มีอินเทอร์เน็ต) ให้กรอกฟอร์มใหม่ตามปกติแทน ไม่ลบข้อมูลที่จดจำไว้
+    setStatus();
+    return false;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
   getDeviceId();
+
+  const loggedInAutomatically = await tryAutoLogin();
+  if (loggedInAutomatically) return;
+
+  const remembered = getRememberedData();
+  if (remembered && remembered.email) {
+    document.getElementById("reg-email").value = remembered.email;
+  }
 });
 
 document.querySelectorAll("#otp-inputs input").forEach((input, index, inputs) => {
@@ -145,8 +211,9 @@ document.getElementById("btn-verify").addEventListener("click", async () => {
   const remember = document.getElementById("remember-device").checked;
   document.getElementById("device-remembered").style.display = remember ? "flex" : "none";
   if (remember) {
-    localStorage.setItem("rememberedEmail", registration.email);
-    localStorage.setItem("rememberedUntil", String(Date.now() + REMEMBER_DAYS * 86400000));
+    saveRememberedData(registration);
+  } else {
+    clearRememberedData();
   }
   sessionStorage.removeItem(SESSION_KEY);
   goToScreen("screen-success", 3);
