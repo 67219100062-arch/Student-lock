@@ -1,4 +1,4 @@
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzhIx-jLcGkXdkthj0BE06ki26INLY_pPZAYMWFuRQuZXz_jBaeEN_m-bqM1IR8qT1_/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJXYlGpHzM7VnLCC1SOenG8_d2td_Ynj8t8j_Z4ckOAtViislVj3RySBTixMlnGCKi/exec";
 // URL ของ Firebase Realtime Database (ไม่ต้องมี / ปิดท้าย)
 const FIREBASE_HOST = "https://student-door-lock-default-rtdb.asia-southeast1.firebasedatabase.app";
 const FIREBASE_DOOR_COMMAND_URL = `${FIREBASE_HOST}/door/command.json`;
