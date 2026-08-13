@@ -1,4 +1,4 @@
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4x4-URycK462OEKfoHX7PEFK0rp72Kl6aQSezOnukLgFqQGENv2us04bJeHPtrq73/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYy2ffpV_8o0pv90cMFp-_rD09QOn6epq-7y0RhtnUz-OhSqfnBTtspESRJBwABznj/exec";
 // URL ของ Firebase Realtime Database (ไม่ต้องมี / ปิดท้าย)
 const FIREBASE_HOST = "https://tan-is-man-default-rtdb.asia-southeast1.firebasedatabase.app";
 const FIREBASE_DOOR_COMMAND_URL = `${FIREBASE_HOST}/door/command.json`;
@@ -34,9 +34,11 @@ async function requestApi(payload) {
   const params = new URLSearchParams({
     data: JSON.stringify(payload)
   });
-  const response = await fetch(`${APPS_SCRIPT_URL}?${params}`, {
-    redirect: "follow"
-  });
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4x4-URycK4620EKfoHX7PEFK0rp72KI6aQSezOnukLgFqQGENv2us04bJeHPtrq73/exec";
+
+const response = await fetch(`${APPS_SCRIPT_URL}?${params}`, {
+  redirect: "follow"
+});
   const text = await response.text();
   try { return JSON.parse(text); } catch { throw new Error("Invalid JSON"); }
 }
