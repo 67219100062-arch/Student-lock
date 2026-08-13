@@ -1,4 +1,4 @@
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJXYlGpHzM7VnLCC1SOenG8_d2td_Ynj8t8j_Z4ckOAtViislVj3RySBTixMlnGCKi/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4x4-URycK462OEKfoHX7PEFK0rp72KI6aQSezOnukLgFqQGENv2us04bJeHPtrq73/exec";
 // URL ของ Firebase Realtime Database (ไม่ต้องมี / ปิดท้าย)
 const FIREBASE_HOST = "https://tan-is-man-default-rtdb.asia-southeast1.firebasedatabase.app";
 const FIREBASE_DOOR_COMMAND_URL = `${FIREBASE_HOST}/door/command.json`;
