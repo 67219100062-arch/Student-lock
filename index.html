@@ -4,194 +4,610 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ยืมคืนกุญแจ</title>
+    <title>ยืม-คืนกุญแจ | DBT Minburi</title>
 
-    <!-- Google Font -->
+    <!-- =========================
+         GOOGLE FONT
+    ========================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link
+        rel="preload"
+        as="style"
+        href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap"
+        onload="this.onload=null;this.rel='stylesheet'"
+    >
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/logo.png">
+    <noscript>
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap"
+        >
+    </noscript>
 
-    <!-- Stylesheet -->
+
+    <!-- =========================
+         FAVICON
+    ========================== -->
+    <link
+        rel="icon"
+        type="image/png"
+        href="images/logo.png"
+    >
+
+
+    <!-- =========================
+         MAIN CSS
+    ========================== -->
     <link rel="stylesheet" href="style.css">
+
+
+    <!-- =========================
+         BASIC FAST LOAD CSS
+    ========================== -->
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: "Prompt", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* ซ่อนหน้าที่ไม่ได้ใช้งาน */
+        .screen {
+            display: none;
+        }
+
+        /* แสดงเฉพาะหน้าปัจจุบัน */
+        .screen.active {
+            display: block;
+        }
+
+        /* Logo */
+        .logo img {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+        }
+
+        /* OTP icon */
+        .otp-icon {
+            width: 72px;
+            height: 72px;
+            margin: auto;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        /* ลดการกระพริบตอนโหลด */
+        img {
+            display: block;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+    </style>
+
 </head>
 
 
 <body>
 
-    <div class="register-card">
-
-        <!-- Progress dots -->
-        <div class="progress-dots">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-        </div>
+<div class="register-card">
 
 
-        <!-- ============================
-             SCREEN 1: REGISTER
-        ============================ -->
-        <div id="screen-register" class="screen active">
+    <!-- =========================
+         PROGRESS DOTS
+    ========================== -->
 
-            <!-- Logo -->
-            <div class="logo">
-                <img src="images/logo.png" alt="DBT Minburi Logo">
-            </div>
+    <div class="progress-dots">
 
-            <!-- Title -->
-            <h1 class="title">ยืมคืนกุญแจ</h1>
-            <p class="subtitle">กรอกข้อมูลให้ครบถ้วนเพื่อเข้าใช้งาน</p>
-            <p class="description">โครงงานนักศึกษา • วิชาการพัฒนาเว็บไซต์</p>
+        <span class="dot active"></span>
 
-            <div class="divider">
-                <i class="fa-solid fa-circle"></i>
-            </div>
+        <span class="dot"></span>
 
-            <!-- Email -->
-            <div class="form-group">
-                <label class="form-label" for="reg-email">
-                    <i class="fa-regular fa-envelope"></i>
-                    อีเมลวิทยาลัย
-                </label>
-                <input type="email" id="reg-email" class="input-box" placeholder="email@minburi.ac.th">
-            </div>
-
-            <!-- Name -->
-            <div class="form-group">
-                <label class="form-label" for="reg-name">
-                    <i class="fa-regular fa-user"></i>
-                    ชื่อ - นามสกุล
-                </label>
-                <input type="text" id="reg-name" class="input-box" placeholder="กรอกชื่อ - นามสกุล">
-            </div>
-
-            <!-- Student ID + Classroom -->
-            <div class="form-row">
-
-                <div class="form-group">
-                    <label class="form-label" for="reg-id">
-                        <i class="fa-regular fa-id-card"></i>
-                        รหัสนักศึกษา
-                    </label>
-                    <input type="text" id="reg-id" class="input-box" placeholder="672191">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="reg-room">
-                        <i class="fa-solid fa-school"></i>
-                        ห้องเรียน
-                    </label>
-                    <select id="reg-room" class="input-box">
-                        <option value="">เลือกห้องเรียน</option>
-                        <option value="121">ห้อง 121</option>
-                        <option value="122">ห้อง 122</option>
-                        <option value="124">ห้อง 124</option>
-                        <option value="125">ห้อง 125</option>
-                        <option value="141">ห้อง 141</option>
-                        <option value="142">ห้อง 142</option>
-                        <option value="143">ห้อง 143</option>
-                        <option value="144">ห้อง 144</option>
-                        <option value="145">ห้อง 145</option>
-                    </select>
-                </div>
-
-            </div>
-
-            <!-- Remember device -->
-            <div class="checkbox-row">
-                <input type="checkbox" id="remember-device">
-                <label for="remember-device">จดจำอุปกรณ์นี้ 30 วัน (ข้ามการยืนยัน OTP ครั้งถัดไป)</label>
-            </div>
-
-            <!-- Register Button -->
-            <button id="btn-register" class="register-btn" type="button">
-                <i class="fa-solid fa-user-plus"></i>
-                ลงทะเบียน
-            </button>
-
-            <p id="register-error" class="error-text"></p>
-
-        </div>
-
-
-        <!-- ============================
-             SCREEN 2: OTP
-        ============================ -->
-        <div id="screen-otp" class="screen">
-
-            <div class="logo">
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-
-            <h1 class="title">ยืนยันตัวตน</h1>
-            <p class="otp-hint">
-                กรอกรหัส OTP 6 หลักที่ส่งไปยัง<br>
-                <strong id="otp-email-target"></strong>
-            </p>
-
-            <div id="otp-inputs">
-                <input type="text" inputmode="numeric" maxlength="1">
-                <input type="text" inputmode="numeric" maxlength="1">
-                <input type="text" inputmode="numeric" maxlength="1">
-                <input type="text" inputmode="numeric" maxlength="1">
-                <input type="text" inputmode="numeric" maxlength="1">
-                <input type="text" inputmode="numeric" maxlength="1">
-            </div>
-
-            <button id="btn-verify" class="register-btn" type="button">
-                <i class="fa-solid fa-check"></i>
-                ยืนยัน
-            </button>
-
-            <p id="otp-error" class="error-text"></p>
-
-            <p class="otp-resend">
-                ไม่ได้รับรหัส?
-                <button id="btn-resend" class="link-btn" type="button">ส่งรหัสอีกครั้ง</button>
-            </p>
-
-        </div>
-
-
-        <!-- ============================
-             SCREEN 3: SUCCESS
-        ============================ -->
-        <div id="screen-success" class="screen">
-
-            <div class="success-icon">
-                <i class="fa-solid fa-door-open"></i>
-            </div>
-
-            <h1 class="title">สำเร็จแล้ว!</h1>
-            <p class="subtitle">ยืนยันตัวตนสำเร็จ กำลังสั่งเปิดประตู</p>
-
-            <div id="device-remembered">
-                <i class="fa-solid fa-shield-halved"></i>
-                จดจำอุปกรณ์นี้ไว้แล้ว 30 วัน
-            </div>
-
-            <p id="connection-status" class="connection-status"></p>
-
-            <button id="btn-continue" class="register-btn" type="button">
-                <i class="fa-solid fa-rotate-left"></i>
-                กลับไปหน้าลงทะเบียน
-            </button>
-
-        </div>
-
-
-        <!-- Footer -->
-        <p class="footer">© 2026 ระบบยืม-คืนกุญแจ | วิทยาลัยเทคนิคมีนบุรี</p>
+        <span class="dot"></span>
 
     </div>
 
-    <script src="script.js"></script>
+
+
+    <!-- ==================================================
+         SCREEN 1 : REGISTER
+    ================================================== -->
+
+    <div
+        id="screen-register"
+        class="screen active"
+    >
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <img
+                src="images/logo.png"
+                alt="DBT Minburi Logo"
+                width="72"
+                height="72"
+                fetchpriority="high"
+            >
+
+        </div>
+
+
+
+        <!-- TITLE -->
+
+        <h1 class="title">
+            ยืม-คืนกุญแจ
+        </h1>
+
+
+        <p class="subtitle">
+            กรอกข้อมูลให้ครบถ้วนเพื่อเข้าใช้งาน
+        </p>
+
+
+        <p class="description">
+            โครงงานนักศึกษา • วิชาการพัฒนาเว็บไซต์
+        </p>
+
+
+
+        <!-- DIVIDER -->
+
+        <div class="divider"></div>
+
+
+
+        <!-- =========================
+             EMAIL
+        ========================== -->
+
+        <div class="form-group">
+
+            <label
+                class="form-label"
+                for="reg-email"
+            >
+                อีเมลวิทยาลัย
+            </label>
+
+
+            <input
+                type="email"
+                id="reg-email"
+                class="input-box"
+                placeholder="email@minburi.ac.th"
+                autocomplete="email"
+            >
+
+        </div>
+
+
+
+        <!-- =========================
+             NAME
+        ========================== -->
+
+        <div class="form-group">
+
+            <label
+                class="form-label"
+                for="reg-name"
+            >
+                ชื่อ - นามสกุล
+            </label>
+
+
+            <input
+                type="text"
+                id="reg-name"
+                class="input-box"
+                placeholder="กรอกชื่อ - นามสกุล"
+                autocomplete="name"
+            >
+
+        </div>
+
+
+
+        <!-- =========================
+             STUDENT ID + ROOM
+        ========================== -->
+
+        <div class="form-row">
+
+
+            <!-- STUDENT ID -->
+
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="reg-id"
+                >
+                    รหัสนักศึกษา
+                </label>
+
+
+                <input
+                    type="text"
+                    id="reg-id"
+                    class="input-box"
+                    placeholder="672191"
+                    inputmode="numeric"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+
+            <!-- CLASSROOM -->
+
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="reg-room"
+                >
+                    ห้องเรียน
+                </label>
+
+
+                <select
+                    id="reg-room"
+                    class="input-box"
+                >
+
+                    <option value="">
+                        เลือกห้องเรียน
+                    </option>
+
+                    <option value="121">
+                        ห้อง 121
+                    </option>
+
+                    <option value="122">
+                        ห้อง 122
+                    </option>
+
+                    <option value="124">
+                        ห้อง 124
+                    </option>
+
+                    <option value="125">
+                        ห้อง 125
+                    </option>
+
+                    <option value="141">
+                        ห้อง 141
+                    </option>
+
+                    <option value="142">
+                        ห้อง 142
+                    </option>
+
+                    <option value="143">
+                        ห้อง 143
+                    </option>
+
+                    <option value="144">
+                        ห้อง 144
+                    </option>
+
+                    <option value="145">
+                        ห้อง 145
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             REMEMBER DEVICE
+        ========================== -->
+
+        <div class="checkbox-row">
+
+            <input
+                type="checkbox"
+                id="remember-device"
+            >
+
+
+            <label for="remember-device">
+
+                จดจำอุปกรณ์นี้ 30 วัน
+                <br>
+
+                <small>
+                    ข้ามการยืนยัน OTP ครั้งถัดไป
+                </small>
+
+            </label>
+
+        </div>
+
+
+
+        <!-- =========================
+             REGISTER BUTTON
+        ========================== -->
+
+        <button
+            id="btn-register"
+            class="register-btn"
+            type="button"
+        >
+
+            ลงทะเบียน
+
+        </button>
+
+
+
+        <!-- ERROR -->
+
+        <p
+            id="register-error"
+            class="error-text"
+            role="alert"
+        ></p>
+
+
+    </div>
+
+
+
+    <!-- ==================================================
+         SCREEN 2 : OTP
+    ================================================== -->
+
+    <div
+        id="screen-otp"
+        class="screen"
+    >
+
+
+        <!-- OTP ICON -->
+
+        <div class="logo">
+
+            <div class="otp-icon">
+                ✓
+            </div>
+
+        </div>
+
+
+
+        <!-- TITLE -->
+
+        <h1 class="title">
+            ยืนยันตัวตน
+        </h1>
+
+
+        <p class="otp-hint">
+
+            กรอกรหัส OTP 6 หลักที่ส่งไปยัง
+
+            <br>
+
+            <strong id="otp-email-target"></strong>
+
+        </p>
+
+
+
+        <!-- OTP INPUT -->
+
+        <div id="otp-inputs">
+
+            <input
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                autocomplete="one-time-code"
+            >
+
+            <input
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+            >
+
+            <input
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+            >
+
+            <input
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+            >
+
+            <input
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+            >
+
+            <input
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+            >
+
+        </div>
+
+
+
+        <!-- VERIFY -->
+
+        <button
+            id="btn-verify"
+            class="register-btn"
+            type="button"
+        >
+
+            ยืนยัน
+
+        </button>
+
+
+
+        <!-- ERROR -->
+
+        <p
+            id="otp-error"
+            class="error-text"
+            role="alert"
+        ></p>
+
+
+
+        <!-- RESEND -->
+
+        <p class="otp-resend">
+
+            ไม่ได้รับรหัส?
+
+            <button
+                id="btn-resend"
+                class="link-btn"
+                type="button"
+            >
+
+                ส่งรหัสอีกครั้ง
+
+            </button>
+
+        </p>
+
+
+    </div>
+
+
+
+    <!-- ==================================================
+         SCREEN 3 : SUCCESS
+    ================================================== -->
+
+    <div
+        id="screen-success"
+        class="screen"
+    >
+
+
+        <!-- SUCCESS ICON -->
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+
+
+        <!-- TITLE -->
+
+        <h1 class="title">
+            สำเร็จแล้ว!
+        </h1>
+
+
+        <p class="subtitle">
+            ยืนยันตัวตนสำเร็จ
+        </p>
+
+
+
+        <!-- DEVICE -->
+
+        <div id="device-remembered">
+
+            จดจำอุปกรณ์นี้ไว้แล้ว 30 วัน
+
+        </div>
+
+
+
+        <!-- CONNECTION STATUS -->
+
+        <p
+            id="connection-status"
+            class="connection-status"
+        ></p>
+
+
+
+        <!-- CONTINUE -->
+
+        <button
+            id="btn-continue"
+            class="register-btn"
+            type="button"
+        >
+
+            กลับไปหน้าลงทะเบียน
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <p class="footer">
+
+        © 2026 ระบบยืม-คืนกุญแจ |
+        วิทยาลัยเทคนิคมีนบุรี
+
+    </p>
+
+
+</div>
+
+
+
+<!-- ==================================================
+     JAVASCRIPT
+     defer = ให้ HTML โหลดก่อน JS ทำงาน
+================================================== -->
+
+<script
+    src="script.js"
+    defer
+></script>
+
+
 </body>
 </html>
