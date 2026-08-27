@@ -121,7 +121,7 @@ body::after {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-top: 22px;
+    margin-bottom: 26px;
 }
 
 .dot {
@@ -356,6 +356,7 @@ select.input-box {
     text-align: center;
     color: #77758a;
     font-size: 14px;
+    margin-top: 4px;
     margin-bottom: 6px;
 }
 
