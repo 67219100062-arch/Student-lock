@@ -1,261 +1,572 @@
-:root {
-  --bg: #F4F1EA;
-  --card: #FFFFFF;
-  --ink: #1F1B16;
-  --ink-soft: #6B6258;
-  --ink-faint: #A39A8E;
-  --accent: #5B4FCF;
-  --accent-soft: #EEEBFB;
-  --accent-deep: #3C3489;
-  --line: #E4DFD4;
-  --success: #2F8F5B;
-  --success-soft: #E5F3EC;
-  --radius: 14px;
-  font-family: "Segoe UI", "Noto Sans Thai", "Helvetica Neue", Arial, sans-serif;
+/* ================================
+   RESET
+================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-* { box-sizing: border-box; }
+
+/* ================================
+   GOOGLE FONT
+================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+
+
+/* ================================
+   BODY
+================================ */
 
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32px 16px;
+    min-height: 100vh;
+
+    font-family: "Prompt", sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #faf9ff 0%,
+            #f0edff 100%
+        );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    overflow: hidden;
 }
 
-.stage {
-  width: 100%;
-  max-width: 400px;
+
+/* ================================
+   BACKGROUND DECORATION
+================================ */
+
+body::before {
+    content: "";
+
+    position: fixed;
+
+    width: 420px;
+    height: 420px;
+
+    background: #e8e2ff;
+
+    border-radius: 50%;
+
+    left: -180px;
+    bottom: -130px;
+
+    z-index: -1;
 }
 
-.card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 32px 28px;
-  box-shadow: 0 1px 2px rgba(31, 27, 22, 0.04);
+
+body::after {
+    content: "";
+
+    position: fixed;
+
+    width: 360px;
+    height: 360px;
+
+    background: #ebe7ff;
+
+    border-radius: 50%;
+
+    right: -120px;
+    bottom: 50px;
+
+    z-index: -1;
 }
 
-.screen { display: none; }
-.screen.active { display: block; animation: rise 0.35s ease; }
 
-@keyframes rise {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ================================
+   REGISTER CARD
+================================ */
+
+.register-card {
+    width: 530px;
+
+    background: #ffffff;
+
+    border-radius: 30px;
+
+    padding: 45px 55px 35px;
+
+    box-shadow:
+        0 20px 55px
+        rgba(75, 57, 145, 0.14);
+
+    position: relative;
+
+    z-index: 1;
 }
 
-.badge {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--accent-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 16px;
+
+/* ================================
+   LOGO
+================================ */
+
+.logo {
+    width: 95px;
+    height: 95px;
+
+    margin: 0 auto 20px;
+
+    background: #f0ecff;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #6842e8;
+
+    font-size: 42px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(104, 66, 232, 0.08);
 }
 
-.badge svg { width: 24px; height: 24px; }
 
-h1 {
-  font-size: 18px;
-  font-weight: 600;
-  text-align: center;
-  margin: 0 0 4px;
+/* ================================
+   TITLE
+================================ */
+
+.title {
+    text-align: center;
+
+    color: #202451;
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    margin-bottom: 8px;
 }
 
-.sub {
-  font-size: 13px;
-  color: var(--ink-soft);
-  text-align: center;
-  margin: 0 0 4px;
-  line-height: 1.55;
+
+.subtitle {
+    text-align: center;
+
+    color: #77758a;
+
+    font-size: 15px;
+
+    font-weight: 400;
 }
 
-.meta {
-  font-size: 12px;
-  color: var(--ink-faint);
-  text-align: center;
-  margin: 0 0 22px;
+
+.description {
+    text-align: center;
+
+    color: #a09dad;
+
+    font-size: 13px;
+
+    font-weight: 300;
+
+    margin-top: 5px;
 }
 
-label {
-  display: block;
-  font-size: 13px;
-  color: var(--ink-soft);
-  margin-bottom: 6px;
+
+/* ================================
+   DIVIDER
+================================ */
+
+.divider {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 28px 0 25px;
 }
 
-.field { margin-bottom: 16px; }
 
-.row-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 16px;
+.divider::before,
+.divider::after {
+    content: "";
+
+    height: 1px;
+
+    background: #e8e5f1;
+
+    flex: 1;
 }
 
-input[type="text"],
-input[type="email"] {
-  width: 100%;
-  height: 42px;
-  padding: 0 14px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  font-size: 14px;
-  color: var(--ink);
-  background: #FBFAF8;
-  outline: none;
-  transition: border-color 0.15s, background 0.15s;
+
+.divider i {
+    color: #6b42e8;
+
+    font-size: 7px;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus {
-  border-color: var(--accent);
-  background: #fff;
+
+/* ================================
+   FORM GROUP
+================================ */
+
+.form-group {
+    margin-bottom: 20px;
 }
 
-input::placeholder { color: var(--ink-faint); }
 
-.btn-primary {
-  width: 100%;
-  height: 44px;
-  border: none;
-  border-radius: 10px;
-  background: var(--ink);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.15s, transform 0.1s;
+/* ================================
+   LABEL
+================================ */
+
+.form-label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #3e3b50;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    margin-bottom: 8px;
 }
 
-.btn-primary:hover { opacity: 0.88; }
-.btn-primary:active { transform: scale(0.99); }
-.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
 
-.footnote {
-  margin: 16px 0 0;
-  font-size: 12px;
-  color: var(--ink-faint);
-  text-align: center;
+/* ไอคอนเล็กหน้าข้อความ */
+
+.form-label i {
+    width: 18px;
+
+    color: #7046e8;
+
+    font-size: 13px;
+
+    text-align: center;
+
+    transition: 0.2s;
 }
 
-.otp-row {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 18px;
+
+/* ================================
+   INPUT
+================================ */
+
+.input-box {
+    width: 100%;
+
+    height: 52px;
+
+    border: 1.5px solid #ddd9e9;
+
+    border-radius: 13px;
+
+    padding: 0 16px;
+
+    background: #ffffff;
+
+    color: #333333;
+
+    font-family: "Prompt", sans-serif;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.25s,
+        box-shadow 0.25s,
+        transform 0.25s;
 }
 
-.otp-row input {
-  width: 42px;
-  height: 50px;
-  text-align: center;
-  font-size: 18px;
-  padding: 0;
+
+/* Placeholder */
+
+.input-box::placeholder {
+    color: #aaa7b7;
+
+    font-weight: 300;
 }
 
-.email-highlight { color: var(--ink); font-weight: 600; }
 
-.remember {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--ink-soft);
-  margin-bottom: 18px;
-  cursor: pointer;
-  user-select: none;
+/* Focus */
+
+.input-box:focus {
+    border-color: #7046e8;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(112, 70, 232, 0.08);
 }
 
-.remember input { width: 15px; height: 15px; accent-color: var(--accent); }
 
-.resend {
-  text-align: center;
-  font-size: 12px;
-  color: var(--ink-faint);
-  margin-top: 14px;
+/* ================================
+   TWO COLUMN FORM
+================================ */
+
+.form-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
 }
 
-.resend a { color: var(--accent); text-decoration: none; font-weight: 600; }
 
-.error {
-  font-size: 12px;
-  color: #B23B3B;
-  text-align: center;
-  margin: -6px 0 14px;
-  min-height: 14px;
+/* ================================
+   SELECT
+================================ */
+
+select.input-box {
+    cursor: pointer;
+
+    color: #77758a;
+
+    appearance: auto;
 }
 
-.success-badge {
-  background: var(--success-soft);
+
+/* ================================
+   REGISTER BUTTON
+================================ */
+
+.register-btn {
+    width: 100%;
+
+    height: 58px;
+
+    margin-top: 10px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #5b2be0,
+            #8147f5
+        );
+
+    color: #ffffff;
+
+    font-family: "Prompt", sans-serif;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    box-shadow:
+        0 8px 20px
+        rgba(91, 43, 224, 0.20);
+
+    transition:
+        transform 0.25s,
+        box-shadow 0.25s,
+        filter 0.25s;
 }
 
-.success-badge svg { stroke: var(--success); }
 
-.device-card {
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 12px 14px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #FBFAF8;
+/* Hover */
+
+.register-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 28px
+        rgba(91, 43, 224, 0.28);
+
+    filter: brightness(1.04);
 }
 
-.device-card svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--ink-soft); }
-.device-card div { font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
-.device-card strong { color: var(--ink); font-weight: 600; }
 
-.stepper {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-bottom: 22px;
+/* Click */
+
+.register-btn:active {
+    transform: translateY(0);
+
+    box-shadow:
+        0 5px 12px
+        rgba(91, 43, 224, 0.20);
 }
 
-.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--line);
-  transition: background 0.2s;
+
+/* Button icon */
+
+.register-btn i {
+    font-size: 16px;
 }
 
-select {
-  width: 100%;
-  height: 42px;
-  padding: 0 14px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  font-size: 14px;
-  font-family: inherit;
-  color: var(--ink);
-  background: #FBFAF8;
 
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+/* ================================
+   FOOTER
+================================ */
 
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%235B4FCF' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
+.footer {
+    text-align: center;
 
-  cursor: pointer;
-  transition: border-color .15s, background .15s;
+    margin-top: 28px;
+
+    color: #9794a7;
+
+    font-size: 12px;
+
+    font-weight: 300;
+
+    line-height: 1.6;
 }
 
-select:focus {
-  outline: none;
-  border-color: var(--accent);
-  background: #fff;
+
+/* ================================
+   RESPONSIVE — TABLET
+================================ */
+
+@media (max-width: 768px) {
+
+    body {
+        padding: 25px;
+
+        overflow-y: auto;
+    }
+
+
+    .register-card {
+        width: 100%;
+
+        max-width: 530px;
+    }
+
 }
 
-.dot.done { background: var(--accent); }
+
+/* ================================
+   RESPONSIVE — MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+    body {
+        min-height: 100vh;
+
+        padding: 20px 15px;
+
+        align-items: center;
+
+        overflow-y: auto;
+    }
+
+
+    .register-card {
+        width: 100%;
+
+        padding:
+            35px
+            25px
+            30px;
+
+        border-radius: 24px;
+    }
+
+
+    .logo {
+        width: 80px;
+        height: 80px;
+
+        font-size: 35px;
+
+        margin-bottom: 16px;
+    }
+
+
+    .title {
+        font-size: 25px;
+    }
+
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+
+    .description {
+        font-size: 12px;
+    }
+
+
+    .divider {
+        margin:
+            24px
+            0
+            22px;
+    }
+
+
+    .form-row {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+
+    .register-btn {
+        height: 55px;
+
+        font-size: 16px;
+    }
+
+
+    .footer {
+        font-size: 11px;
+    }
+
+}
+
+
+/* ================================
+   VERY SMALL MOBILE
+================================ */
+
+@media (max-width: 380px) {
+
+    .register-card {
+        padding:
+            30px
+            20px
+            25px;
+    }
+
+
+    .title {
+        font-size: 22px;
+    }
+
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+}
